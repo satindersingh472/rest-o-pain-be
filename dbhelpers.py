@@ -74,7 +74,7 @@ def conn_exe_close(statement,list):
     results = execute_statement(cursor,statement,list)
     results = make_dictionary(results,cursor)
     close_connection(cursor)
-    return result
+    return results
 
 # it will convert list into a dictionary from the response
 def make_dictionary(results,cursor):
