@@ -7,9 +7,9 @@ from apihelpers import verify_endpoints_info
 #function for posting email
 def post():
     #will check if an email is sent or not
-    args = verify_endpoints_info(request.json,['email'])
-    if (args != None):
-        return make_response(json.dumps(args,default=str),400)
+    email = request.json.get('email')
+    if (email == "" or email == None):
+        return make_response(json.dumps('Please enter a valid email',default=str),400)
     #will check if email already exists or not
     results = conn_exe_close('call email_get(?)',[request.json['email']])
     #if email exists then it will not send a post request to the db
