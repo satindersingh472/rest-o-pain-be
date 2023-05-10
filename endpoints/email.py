@@ -1,7 +1,7 @@
 from flask import request,make_response
 import json
 from dbhelpers import conn_exe_close
-from apihelpers import verify_endpoints_info
+from apihelpers import verify_endpoints_info, send_email
 
 #this file is for email storing endpoints
 #function for posting email
@@ -20,6 +20,7 @@ def post():
         email_post = conn_exe_close('call email_post(?)',[request.json['email']])
         #after successfull posting of an email to the db it will show the message
         if(type(email_post) == list and email_post[0]['email_count'] == 1):
+            send_email(request.json['email'])
             return make_response(json.dumps('Email added successfully',default=str),200)
         elif(type(email_post) == list and email_post[0]['email_count'] == 0):
             return make_response(json.dumps('Email not added',default=str),400)
