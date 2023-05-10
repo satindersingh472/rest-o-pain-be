@@ -22,9 +22,9 @@ def verify_endpoints_info(sent_data,required_args):
             return f'The {data} argument is required'
 
 def send_email(email):
-    smtp_server = "smtp.office365.com"
-    port = 587  # For starttls
-    sender_email = "info@restopainphysio.ca"
+    smtp_server = "smtp.gmail.com"
+    port = 465  # For smtp-ssl
+    sender_email = "restopainphysiotherapy@gmail.com"
     receiver_email = f"{email}"
     password = dbcreds.email_password
     # Create a secure SSL context
@@ -37,7 +37,10 @@ def send_email(email):
     html = """\
         <html>
         <body>
-            Thanks for registering 
+            Thanks for registering <br>
+            this email is for test purpose only. <br>
+            Please do not try to reply on this email. <br>
+            Thanks
         </body>
         </html>
         """
@@ -46,10 +49,7 @@ def send_email(email):
 
     # Try to log in to server and send email
     try:
-        server = smtplib.SMTP(smtp_server,port)
-        server.ehlo() # Can be omitted
-        server.starttls(context=context) # Secure the connection
-        server.ehlo() # Can be omitted
+        server = smtplib.SMTP_SSL(smtp_server,port,context=context)
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message.as_string())
         # TODO: Send email here
