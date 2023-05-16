@@ -1,14 +1,14 @@
 from flask import request,make_response
 import json
 from dbhelpers import conn_exe_close
-from apihelpers import verify_endpoints_info, send_email
+from apihelpers import verify_endpoints_info, send_email, check_email
 
 #this file is for email storing endpoints
 #function for posting email
 def post():
     #will check if an email is sent or not
     email = request.json.get('email')
-    if (email == "" or email == None):
+    if (check_email(email) == 0):
         return make_response(json.dumps('Please enter a valid email',default=str),400)
     #will check if email already exists or not
     results = conn_exe_close('call email_get(?)',[request.json['email']])

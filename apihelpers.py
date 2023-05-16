@@ -2,7 +2,7 @@
 import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import dbcreds
+import dbcreds,re
 
 
 
@@ -13,6 +13,17 @@ def add_for_patch(sent_data,required_args,original_data):
             original_data[data] = sent_data[data]
     return original_data
     
+
+
+# verify email is valid or not
+regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+def check_email(email):
+    if(re.fullmatch(regex,email)):
+        return 1
+    else:
+        return 0
+
+print(check_email("Satindersingh772@gmail.com"))
 
 # will verifiy end points arguments for presence
 # if necessary arguments not sent then remind the user to send
